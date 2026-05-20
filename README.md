@@ -14,7 +14,7 @@ A fully offline, single-file data viewer built for CSV, Excel, and OpenDocument 
 Download `DAT_Offline_1.0.html` and open it in any modern browser. That's it.
 
 ## Example
-URL: https://nocodeedu.github.io/DAT/DAT_Offline_1.2.html
+URL: https://nocodeedu.github.io/DAT/DAT_1.2.html
 
 ## Licence
 Free for personal and non-commercial use under the  
