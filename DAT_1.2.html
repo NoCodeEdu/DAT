@@ -444,7 +444,7 @@ tr:hover td{background:var(--color-surface2)}
         <div>
           <h3>Licensing &amp; Credits</h3>
           <p>
-            <strong>DAT</strong> — Copyright &copy; nocodeedu (<a href="https://github.com/nocodeedu" target="_blank" rel="noopener" style="color:var(--color-info)">github.com/nocodeedu</a>).<br>
+            <strong>DAT</strong> — Copyright &copy; NoCodeEDU (<a href="https://github.com/nocodeedu" target="_blank" rel="noopener" style="color:var(--color-info)">github.com/nocodeedu</a>).<br>
             Licensed under the <strong>PolyForm Noncommercial 1.0.0</strong> licence — free for personal and non-commercial use. Commercial use requires a separate written agreement with the author.<br>
             Full licence text: <a href="https://polyformproject.org/licenses/noncommercial/1.0.0" target="_blank" rel="noopener" style="color:var(--color-info)">polyformproject.org/licenses/noncommercial/1.0.0</a>
           </p>
@@ -654,7 +654,7 @@ tr:hover td{background:var(--color-surface2)}
         <div class="title" id="page-title">DAT</div>
         <div class="subtitle" id="file-label" style="color:var(--color-text3)"></div>
       </div>
-      <div class="subtitle" id="page-subtitle" style="display:none">DAT &nbsp;·&nbsp; Version 1.1 &ndash; Created using Claude Sonnet 4.6</div>
+      <div class="subtitle" id="page-subtitle" style="display:none">DAT &nbsp;·&nbsp; Version 1.2 &ndash; Created using Claude Sonnet 4.6</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <button class="btn" id="export-btn" style="display:none" onclick="openExportModal()"><i class="ti ti-download"></i> Export / Save</button>
@@ -2237,7 +2237,6 @@ function render(){
   } else {
     // Leaving grouped view — always clear pause
     if(groupPaused){groupPaused=false;syncPauseBtn();}
-    setTableInfo('',stat);
     groupView.style.display='none';groupView.innerHTML='';
     tableWrap.style.display='';renderFlatTable(data);
   }
@@ -2295,9 +2294,17 @@ function renderFlatTable(data){
     tbody.appendChild(tr2);
   });
   renderPager(total,pages);
+  const ip=document.getElementById('inline-pager');
+  if(ip)ip.style.display='flex';
+  // Page-aware stat: "Showing 1–100 of 1,234 rows" (or "X of Y rows" when all shown)
+  const pageStart=pageOffset+1;
+  const pageEnd=pageOffset+pageData.length;
+  const stat=pageSize&&pages>1
+    ?`Showing ${pageStart.toLocaleString()}–${pageEnd.toLocaleString()} of ${total.toLocaleString()} rows`
+    :`${total.toLocaleString()} of ${rawData.length.toLocaleString()} rows`;
+  setTableInfo('',stat);
 }
 function renderPager(total,pages){
-  // Always show pager — disabled arrows and "1 / 1" when single page
   const txt=`${currentPage} / ${Math.max(1,pages)}`;
   const atStart=currentPage<=1;
   const atEnd=currentPage>=pages||pages<=1;
@@ -2315,6 +2322,7 @@ function renderPager(total,pages){
   if(prevB){prevB.disabled=atStart;}
   if(nextB){nextB.disabled=atEnd;}
   if(infoB)infoB.textContent=txt;
+  // Action bar pager removed — nav is in the top/bottom info bars
 }
 
 /* ── Utilities ───────────────────────────────────────────── */
@@ -3269,7 +3277,7 @@ function updatePageTitle(filename, rowCount){
   const titleEl=document.getElementById('page-title');
   const subEl=document.getElementById('page-subtitle');
   const fileLblEl=document.getElementById('file-label');
-  const ver='DAT \u00b7 Version 1.1';
+  const ver='DAT \u00b7 Version 1.2';
   if(filename){
     if(titleEl)titleEl.textContent=filename;
     document.title=filename+' \u2014 DAT';
@@ -3385,7 +3393,8 @@ applyLevelColors();
 
 <!-- Bookmark bar -->
 <div class="bmark-bar" id="bmark-bar">
-  <button class="bmark-add" onclick="addBookmark()" title="Add bookmark at current scroll position"><i class="ti ti-plus" style="font-size:14px"></i></button>
+  <button class="bmark-add" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" style="border-style:solid;color:var(--color-text3)"><i class="ti ti-arrow-up" style="font-size:13px"></i></button>
+  <button class="bmark-add" onclick="addBookmark()" title="Add marker at current scroll position"><i class="ti ti-plus" style="font-size:14px"></i></button>
   <div class="bmark-sep"></div>
   <div id="bmark-chips" style="display:flex;align-items:center;gap:5px"></div>
 </div>
