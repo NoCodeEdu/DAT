@@ -23,5 +23,6 @@ Commercial use requires a separate written agreement.
 Copyright © nocodeedu
 
 ## Credits
+- Built with AI
 - [SheetJS](https://sheetjs.com) v0.18.5 — Apache 2.0  
 - [Tabler Icons](https://tabler.io/icons) v3.19.0 — MIT
